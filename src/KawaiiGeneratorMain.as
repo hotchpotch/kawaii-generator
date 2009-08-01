@@ -19,17 +19,19 @@ package {
             var kg:KawaiiGenerator = new KawaiiGenerator;
             var bd:BitmapData = new BitmapData(240, 240, true, 0xFFF0F0F0);
             var b:Bitmap = new Bitmap(bd);
-            b.scaleX = b.scaleY = 3;
+            b.scaleX = b.scaleY = 2;
             addChild(b);
             var m:Matrix = new Matrix;
+            m.tx = 4;
+            m.ty = 4;
             while (m.tx < bd.width) {
                 while (m.ty < bd.height) {
                     var gb:BitmapData = kg.generate();
                     bd.draw(gb, m);
-                    m.ty += 16;
+                    m.ty += 24;
                 }
-                m.tx += 16;
-                m.ty = 0;
+                m.tx += 24;
+                m.ty = 4;
             }
         }
     }

@@ -20,7 +20,7 @@ package com.rails2u.kgen.parts {
         public function init():void {
             borderHeight = MathUtil.randomPickup(7, 7, 8, 8, 7, 7, 8, 8, 9, 10);
             borderWidth = MathUtil.randomPickup(8,10,10,12);
-            round = MathUtil.randomPickup(0,0,0,1, 1);
+            round = MathUtil.randomPickup(0,1,0,1, 1);
             mainColor = new ColorSB(0x555555);
             subColor  = new ColorSB(0xFFFFFF);
         }
@@ -43,13 +43,47 @@ package com.rails2u.kgen.parts {
                 bd.setPixel32(fr.bottomRight.x- 1, fr.bottomRight.y- 1, 0x00000000);
             }
             drawEyes(bd, fr);
+            drawMouth(bd, fr);
         }
 
-        public function drawEyes(bd:BitmapData, fr:Rectangle) {
+        public function drawMouth(bd:BitmapData, fr:Rectangle):void {
+            var mode:uint = MathUtil.randomPickup(0,0,0,1,2);
+            var widthMargin:uint = 2;
+            var heightMargin:uint = 2;
+            if (borderHeight > 8 && MathUtil.randomPickup(0,1,2)) heightMargin++;
+            if (mode == 0) {
+                if (borderWidth > 8 && MathUtil.randomPickup(0,1,1)) widthMargin ++;
+                var lineRect:Rectangle = new Rectangle(
+                    fr.topLeft.x + widthMargin,
+                    fr.topLeft.y + borderHeight - heightMargin,
+                    fr.width - widthMargin * 2,
+                    1
+                );
+                bd.fillRect(lineRect, subColorRGBA);
+            } else if (mode == 1) {
+                var lineRect:Rectangle = new Rectangle(
+                    SIZE/2-1,
+                    fr.topLeft.y + borderHeight - heightMargin,
+                    2,
+                    1
+                );
+                bd.fillRect(lineRect, subColorRGBA);
+            } else if (mode == 2) {
+                var lineRect:Rectangle = new Rectangle(
+                    SIZE/2-2,
+                    fr.topLeft.y + borderHeight - heightMargin,
+                    4,
+                    1
+                );
+                bd.fillRect(lineRect, subColorRGBA);
+            }
+        }
+
+        public function drawEyes(bd:BitmapData, fr:Rectangle):void {
             var heightMargin:uint = 1;
             var widthMargin:uint = 1;
             if (round == 1) heightMargin += 1;
-            var mode:uint = MathUtil.randomPickup(0,1,1,1,2,2,1,1,1,2,2,3,4, 4);
+            var mode:uint = MathUtil.randomPickup(0,1,1,1,2,2,1,1,1,2,2,4);
             if (borderWidth >= 10 && MathUtil.randomPickup(0,0,1) == 1) widthMargin += 1;
 
             if (mode == 0) {
@@ -81,6 +115,7 @@ package com.rails2u.kgen.parts {
                 bd.setPixel32(fr.topLeft.x + fr.width - 2 - widthMargin, fr.topLeft.y + heightMargin, subColorRGBA);
                 bd.setPixel32(fr.topLeft.x + fr.width - 2 - widthMargin, fr.topLeft.y + heightMargin + 1, subColorRGBA);
             } else if (mode == 4) {
+                if (heightMargin == 1 && MathUtil.randomBoolean()) heightMargin++;
                 bd.setPixel32(fr.topLeft.x + widthMargin, fr.topLeft.y + heightMargin, subColorRGBA);
                 bd.setPixel32(fr.topLeft.x + widthMargin + 1, fr.topLeft.y + heightMargin, subColorRGBA);
                 bd.setPixel32(fr.topLeft.x + fr.width - 1 - widthMargin, fr.topLeft.y + heightMargin, subColorRGBA);

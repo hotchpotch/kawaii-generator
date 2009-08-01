@@ -12,6 +12,7 @@ package com.rails2u.kgen {
             var subColor:ColorSB = new ColorSB(0xFFFFFF);
 
             var face:Face = new Face();
+            face.draw(bd);
             return bd;
         }
     }
